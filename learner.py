@@ -11,6 +11,7 @@ import logging
 import random
 import numpy as np
 from torch import optim
+from torch import load
 from policy import MultiDiscretePolicy
 from utils import state_vectorize, state_vectorize_user
 from hybridv import HybridValue
@@ -375,12 +376,12 @@ class Learner():
         
         policy_usr_mdl = directory + '/usr/' + epoch + '_pol.mdl'
         if os.path.exists(policy_usr_mdl):
-            self.policy_usr.load_state_dict(torch.load(policy_usr_mdl))
+            self.policy_usr.load_state_dict(torch.load(policy_usr_mdl,map_location ='cpu'))
             logging.info('<<dialog policy usr>> loaded checkpoint from file: {}'.format(policy_usr_mdl))
             
         policy_sys_mdl = directory + '/sys/' + epoch + '_pol.mdl'
         if os.path.exists(policy_sys_mdl):
-            self.policy_sys.load_state_dict(torch.load(policy_sys_mdl))
+            self.policy_sys.load_state_dict(torch.load(policy_sys_mdl,map_location ='cpu'))
             logging.info('<<dialog policy sys>> loaded checkpoint from file: {}'.format(policy_sys_mdl))
 
         if not self.infer:
